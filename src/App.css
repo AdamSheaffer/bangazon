@@ -1,37 +1,36 @@
 /* Landing Page */
 
 .landingDiv {
-display: flex;
-justify-content: space-around;
-margin-top: 5%
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5%;
 }
 
-.landingEmployeePortalDiv{
+.landingEmployeePortalDiv {
   display: flex;
   flex-direction: column;
 }
 
-.landingCustomerPortalDiv{
+.landingCustomerPortalDiv {
   display: flex;
   flex-direction: column;
 }
 
-.portalTitle{
+.portalTitle {
   display: flex;
   justify-content: center;
-  font-family: 'Avenir Next';
+  font-family: "Avenir Next";
   font-style: normal;
   font-weight: 800;
   font-size: 33px;
-  color: #33475B;
+  color: #33475b;
 }
 
 /* Landing End */
 
-
 /* SideBar Menu */
 
-.bangazonLogo{
+.bangazonLogo {
   margin-top: 5%;
   margin-bottom: 9%;
   margin-left: 5%;
@@ -43,7 +42,7 @@ margin-top: 5%
 .ui.vertical.menu {
   display: block;
   flex-direction: column;
-  background: #6A78D1;
+  background: #6a78d1;
 }
 
 .ui.left.sidebar {
@@ -63,10 +62,10 @@ margin-top: 5%
   flex: 0 0 auto;
   -webkit-user-select: none;
   user-select: none;
-  padding: .92857143em 1.14285714em;
+  padding: 0.92857143em 1.14285714em;
   text-transform: none;
   color: rgba(255, 255, 255, 1);
-  font-family: 'Avenir';
+  font-family: "Avenir";
   font-size: 16px;
   font-weight: 900;
 }
@@ -74,27 +73,27 @@ margin-top: 5%
 /* Non-active link on hover */
 .ui.menu a.item:hover {
   cursor: pointer;
-  background: rgba(180, 187, 232, .5);
+  background: rgba(180, 187, 232, 0.5);
   color: #ffffff;
 }
 
 /* Active link on hover */
-.ui.menu .active.item:hover, .ui.vertical.menu .active.item:hover {
+.ui.menu .active.item:hover,
+.ui.vertical.menu .active.item:hover {
   color: rgba(255, 255, 255, 1);
-  background-color: #B4BBE8;
+  background-color: #b4bbe8;
 }
 
 .ui.menu .active.item {
   background: #ffffff;
   color: rgba(255, 255, 255, 0.87);
-  font-family: 'Avenir';
+  font-family: "Avenir";
   font-weight: 900;
   box-shadow: none;
 }
 
-.ui.menu .active.item:hover{
-  background: #B4BBE8;
-
+.ui.menu .active.item:hover {
+  background: #b4bbe8;
 }
 
 .ui.vertical.menu .item {
@@ -103,24 +102,24 @@ margin-top: 5%
 }
 
 .ui.vertical.menu .active.item {
-  background: #B4BBE8;
+  background: #b4bbe8;
   border-radius: 0;
-  box-shadow: 0 0 20px rgba(34,36,38,.45);
+  box-shadow: 0 0 20px rgba(34, 36, 38, 0.45);
 }
 
 /* SideBar Menu End */
 
 /* SlideBar */
 
-.purpleHeader{
+.purpleHeader {
   padding-top: 30px;
-  background-color: #6A78D1;
+  background-color: #6a78d1;
 }
 
 .slideBarHeader {
   padding-left: 25px !important;
   color: #ffffff !important;
-  font-family: 'Avenir Next' !important;
+  font-family: "Avenir Next" !important;
   font-size: 28px !important;
   font-weight: 700 !important;
 }
@@ -129,42 +128,51 @@ margin-top: 5%
   padding-left: 25px !important;
   padding-bottom: 30px !important;
   color: #ffffff !important;
-  font-family: 'Avenir Next' !important;
+  font-family: "Avenir Next" !important;
   font-size: 28px !important;
   font-weight: 700 !important;
 }
 
-.slideBarSubheader{
+.slideBarSubheader {
   padding-left: 25px !important;
   padding-bottom: 30px !important;
   color: #ffffff !important;
-  font-family: 'Avenir Next' !important;
+  font-family: "Avenir Next" !important;
   font-size: 15px;
   font-weight: 600 !important;
 }
 
-.slideBarImg{
+.slideBarImg {
   display: flex;
   justify-content: center;
 }
 
 .computerImage {
   max-width: 40%;
-  }
+}
 
 .departmentImage {
   max-width: 70%;
-  }
+}
+
+.department-card__header {
+  font-size: 24px;
+}
+
+.department-card__subheader {
+  font-size: 1.2em;
+  color: rgba(0, 0, 0, 0.4);
+}
 
 .employeeImage {
   max-width: 55%;
-  }
+}
 
-.fifteen.wide.field{
+.fifteen.wide.field {
   padding-left: 25px;
 }
 
-.slideBarButtonContainer{
+.slideBarButtonContainer {
   padding-left: 25px;
 }
 /* SlideBar End */
@@ -174,11 +182,16 @@ margin-top: 5%
   margin-left: 200px;
   margin-right: 50px;
 }
+
+.dashboard-container {
+  margin-top: 60px;
+}
+
 /* Employee Container End */
 
 /* NavBar */
 
-.portalDiv{
+.portalDiv {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -187,13 +200,13 @@ margin-top: 5%
 }
 
 .viewManager {
-  font-family: 'Avenir Next';
+  font-family: "Avenir Next";
   font-weight: 600;
   font-size: 18px;
 }
 
 .viewHeader {
-  font-family: 'Avenir Next';
+  font-family: "Avenir Next";
   font-weight: normal;
   font-size: 28px;
 }
@@ -206,9 +219,9 @@ margin-top: 5%
 }
 
 .searchBarContainer {
-display: flex;
-flex-direction: row;
-align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .buttonContainer {
@@ -218,7 +231,7 @@ align-items: center;
 
 /* Dashboard */
 
-.dashboardTopRow{
+.dashboardTopRow {
   display: flex;
   flex-direction: row;
 }
@@ -227,7 +240,7 @@ align-items: center;
 
 /* Employees */
 
-.cardContainer{
+.cardContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -235,26 +248,26 @@ align-items: center;
 }
 
 /* width of the details card */
-.card{
+.card {
+  background-color: #f4f8fa !important;
   box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 0.25px #d4d4d5 !important;
-margin: 0 !important;
+  margin: 0 !important;
 }
 
-.searchResultsCard{
+.searchResultsCard {
   max-height: 71px;
 }
 
-.detailsCard{
-width: 485px !important;
-height: 365px !important;
+.detailsCard {
+  width: 485px !important;
+  height: 365px !important;
 }
-
 
 .cardRibbon {
   min-width: 100%;
 }
 
-.headerButtonContainer{
+.headerButtonContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -264,14 +277,12 @@ height: 365px !important;
 .cardHeader {
   display: flex;
   flex-direction: row;
-
 }
 
 .detailsEmployeeName {
-  font-family: 'Avenir Next';
+  font-family: "Avenir Next";
   font-weight: 750;
 }
-
 
 .detailsCardFlexRow {
   display: flex;
@@ -279,8 +290,8 @@ height: 365px !important;
 }
 
 .detailsCardInfo {
-padding-left: 20px;
-padding-top: 20px;
+  padding-left: 20px;
+  padding-top: 20px;
 }
 
 .item {
@@ -291,13 +302,25 @@ padding-top: 20px;
 /* Employees End */
 
 .ui.right.visible.sidebar {
-  box-shadow: 0 0 20px rgba(34,36,38,.15);
+  box-shadow: 0 0 20px rgba(34, 36, 38, 0.15);
   background-color: #ffffff !important;
 }
 
-
-
-.imgContainer{
+.imgContainer {
   display: flex;
   justify-content: center;
+}
+
+.dashboard__img {
+  height: 275px;
+}
+
+.dashboard__img-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.training-program-name {
+  margin-bottom: 0;
 }
