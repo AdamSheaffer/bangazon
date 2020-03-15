@@ -324,3 +324,12 @@
 .training-program-name {
   margin-bottom: 0;
 }
+
+.no-margin-header {
+  margin: 0;
+}
+
+.employee-card-label-item {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.6);
+}

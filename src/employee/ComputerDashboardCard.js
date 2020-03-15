@@ -54,7 +54,7 @@ export default class ComputerDashboardCard extends Component {
           </Table>
 
           <Header textAlign="right">
-            <Link to="/employee-portal/employees/">
+            <Link to="/employee-portal/computers/">
               More
               <Icon name="arrow right" />
             </Link>

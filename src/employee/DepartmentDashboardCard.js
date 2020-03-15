@@ -30,9 +30,9 @@ export default class DepartmentDashboardCard extends Component {
     APIManager.getAll("departments").then(departments => {
       const chartData = {
         labels: departments.map(d => d.name),
-        labelString: "fooo",
         datasets: [
           {
+            label: "Budget",
             data: departments.map(d => d.budget),
             backgroundColor: chartColors
           }

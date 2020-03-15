@@ -38,7 +38,7 @@ export default class EmployeeDashboardCard extends Component {
           <List relaxed>
             {employees.map(e => (
               <List.Item key={e.id}>
-                <Icon name="user circle" size="big" />
+                <Icon name="user circle" color="teal" size="big" />
                 <List.Content>
                   <List.Header as="a">{e.name}</List.Header>
                   <List.Description>{e.email}</List.Description>
