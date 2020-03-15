@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import EmployeeEdit from "./EmployeeEdit";
-import { List, Button, Icon, Sidebar, Divider, Card } from "semantic-ui-react";
+import TrainingAssignment from "../training/TrainingAssignment";
+import { List, Button, Icon, Sidebar, Divider } from "semantic-ui-react";
 
 export default class EmployeeDetails extends Component {
   state = {
@@ -12,7 +13,6 @@ export default class EmployeeDetails extends Component {
 
   render() {
     const { active } = this.state;
-    console.log("active", active);
     return (
       <>
         <List relaxed>
@@ -88,8 +88,8 @@ export default class EmployeeDetails extends Component {
                 <List.Item>
                   <List.Content>
                     {" "}
-                    <h4>Upcoming Events</h4>
-                    <h4>TBD</h4>
+                    <h4>All Upcoming Training Programs</h4>
+                    <TrainingAssignment employee={this.props.employee} />
                   </List.Content>
                 </List.Item>
               </div>
@@ -107,6 +107,7 @@ export default class EmployeeDetails extends Component {
         >
           {active ? (
             <EmployeeEdit
+              onUpdate={this.props.onEmployeeUpdate}
               closeSidebar={this.handleClose}
               employee={this.props.employee}
               id={this.props.employee.id}

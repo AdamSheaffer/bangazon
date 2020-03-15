@@ -27,7 +27,7 @@ class EmployeeList extends Component {
     });
   };
 
-  searchEmployees() {
+  searchEmployees = () => {
     if (this.props.searchValue === undefined) {
     } else
       APIManager.searchForEmployeeByName(
@@ -40,9 +40,9 @@ class EmployeeList extends Component {
           );
           return e;
         });
-        this.setState({ employees });
+        this.setState({ employees, selectedEmployee: null });
       });
-  }
+  };
 
   componentDidMount() {
     APIManager.getAll("departments")
@@ -90,6 +90,7 @@ class EmployeeList extends Component {
               <Grid.Column>
                 {this.state.selectedEmployee ? (
                   <EmployeeDetails
+                    onEmployeeUpdate={this.searchEmployees}
                     toggle={this.props.toggle}
                     employee={this.state.selectedEmployee}
                     id={this.state.selectedEmployee.id}

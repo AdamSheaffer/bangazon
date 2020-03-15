@@ -87,9 +87,10 @@ export default class EmployeeEdit extends Component {
       computerId: parseInt(this.state.computerId),
       email: this.state.email
     };
-    APIManager.updateData("employees", updatedEmployee).then(() =>
-      this.props.closeSidebar()
-    );
+    APIManager.updateData("employees", updatedEmployee).then(() => {
+      this.props.closeSidebar();
+      this.props.onUpdate();
+    });
   };
 
   render() {

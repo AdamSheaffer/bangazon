@@ -113,10 +113,14 @@ export default {
     );
   },
 
-  addEmployeeToTrainingProgram(id) {
-    return fetch(`${remoteURL}/trainingPrograms/${id}/employees`).then(result =>
-      result.json()
-    );
+  addEmployeeToTrainingProgram(id, employee) {
+    return fetch(`${remoteURL}/trainingPrograms/${id}/employees`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(employee)
+    });
   },
 
   removeEmployeeFromTrainingProgram(trainingId, employeeId) {
@@ -125,6 +129,6 @@ export default {
       {
         method: "DELETE"
       }
-    ).then(data => data.json);
+    );
   }
 };
