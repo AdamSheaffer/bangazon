@@ -4,7 +4,7 @@ import EmployeeCard from "./EmployeeCard";
 import EmployeeAdd from "./EmployeeAdd";
 import { withRouter } from "react-router-dom";
 import EmployeeDetails from "./EmployeeDetails";
-import { Sidebar, Grid, Divider } from "semantic-ui-react";
+import { Sidebar, Grid } from "semantic-ui-react";
 
 class EmployeeList extends Component {
   state = {

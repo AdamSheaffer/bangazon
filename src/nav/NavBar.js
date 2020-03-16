@@ -5,7 +5,6 @@ import { Button, Header } from "semantic-ui-react";
 
 export default class NavigationBar extends Component {
   render() {
-    console.log("navProps", this.props);
     let text = null;
     if (
       this.props.location.pathname.startsWith("/customer-portal/customers/")

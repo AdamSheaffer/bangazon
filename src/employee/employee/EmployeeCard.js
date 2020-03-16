@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import EmployeeDetails from "./EmployeeDetails";
-import { Card, Divider, Grid, Icon } from "semantic-ui-react";
+import { Card, Grid, Icon } from "semantic-ui-react";
 
 export default class EmployeeCard extends Component {
   state = {
