@@ -42,7 +42,6 @@ class ComputerList extends Component {
 
   render() {
     const newActive = this.props.sidebarState;
-    console.log("props", this.props);
 
     return (
       <>
