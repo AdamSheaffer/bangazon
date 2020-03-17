@@ -130,5 +130,11 @@ export default {
         method: "DELETE"
       }
     );
+  },
+
+  removeTrainingProgram(trainingId) {
+    return fetch(`${remoteURL}/trainingPrograms/${trainingId}`, {
+      method: "DELETE"
+    });
   }
 };

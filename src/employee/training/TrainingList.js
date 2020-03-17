@@ -1,107 +1,171 @@
-import React, { Component } from 'react';
-import APIManager from '../../api/APIManager';
-import TrainingAdd from './TrainingAdd';
-import TrainingCard from './TrainingCard';
-import { withRouter } from 'react-router-dom';
-import { Sidebar } from 'semantic-ui-react';
-
+import React, { Component } from "react";
+import APIManager from "../../api/APIManager";
+import TrainingAdd from "./TrainingAdd";
+import TrainingEdit from "./TrainingEdit";
+import { withRouter } from "react-router-dom";
+import { Sidebar, Table, Button, Icon, Modal } from "semantic-ui-react";
+import moment from "moment";
 
 class TrainingList extends Component {
-    state = {
-        trainings: [],
-        storedTraining: {}
-    }
+  state = {
+    trainings: [],
+    trainingPendingDelete: null,
+    trainingToEdit: null
+  };
 
-    // getTrainingData = () => {
-    //     this.setState({
-    //         storedTraining: this.props.searchValue
-    //     })
-    // }
+  refresh = () => {
+    APIManager.getAll("trainingPrograms").then(response => {
+      this.setState({
+        trainings: response
+      });
+    });
+  };
 
-    refresh = () => {
-        APIManager.getAll("trainingPrograms")
-            .then(response => {
-                this.setState({
-                    trainings: response
-                })
-            })
-    }
+  removeTraining = () => {
+    APIManager.removeTrainingProgram(this.state.trainingPendingDelete.id)
+      .then(() => APIManager.getAll("trainingPrograms"))
+      .then(response => {
+        this.setState({
+          trainings: response,
+          trainingPendingDelete: null
+        });
+      });
+  };
 
-    componentDidMount() {
-        if (this.props.searchValue === undefined) {
-            APIManager.getAll("trainingPrograms")
-                .then(response => {
-                    this.setState({
-                        trainings: response
-                    })
-                })
-        } else
-            APIManager.getById("trainingPrograms", this.props.searchValue)
-                .then(response => {
-                    this.setState({
-                        storedTraining: response
-                    })
-                })
-    }
+  componentDidMount() {
+    this.loadData();
+  }
 
-
-    componentDidUpdate(prevProps, prevState) {
-
-        if (prevProps.searchValue !== this.props.searchValue) {
-            APIManager.getById("trainingPrograms", this.props.searchValue)
-                .then(response => {
-                    this.setState({
-                        trainings: response
-                    })
-                })
+  loadData = () => {
+    if (!this.props.searchValue) {
+      APIManager.getAll("trainingPrograms").then(response => {
+        this.setState({
+          trainings: response
+        });
+      });
+    } else
+      APIManager.getById("trainingPrograms", this.props.searchValue).then(
+        response => {
+          this.setState({
+            trainings: [response]
+          });
         }
+      );
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.searchValue !== this.props.searchValue) {
+      this.loadData();
     }
-    render() {
-        const newActive = (this.props.sidebarState)
-        return (
+  }
+  render() {
+    const newActive = this.props.sidebarState;
+    return (
+      <>
+        <Table size="small" celled striped>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Program Id</Table.HeaderCell>
+              <Table.HeaderCell>Name</Table.HeaderCell>
+              <Table.HeaderCell>Dates</Table.HeaderCell>
+              <Table.HeaderCell>Total Slots</Table.HeaderCell>
+              <Table.HeaderCell>Actions</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+
+          <Table.Body>
+            {this.state.trainings.map(t => (
+              <Table.Row key={t.id}>
+                <Table.Cell>#{t.id}</Table.Cell>
+                <Table.Cell>{t.name}</Table.Cell>
+                <Table.Cell>
+                  {moment(t.startDate).format("MMM Do")} {" - "}
+                  {moment(t.endDate).format("MMM Do")}
+                </Table.Cell>
+                <Table.Cell>{t.maxAttendees}</Table.Cell>
+                <Table.Cell>
+                  <Button
+                    onClick={() => this.setState({ trainingToEdit: t })}
+                    basic
+                    icon
+                  >
+                    <Icon name="pencil alternate" />
+                  </Button>
+                  <Button
+                    basic
+                    icon
+                    negative
+                    onClick={() => this.setState({ trainingPendingDelete: t })}
+                  >
+                    <Icon name="trash alternate" />
+                  </Button>
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+        <Sidebar
+          animation="push"
+          icon="labeled"
+          inverted="false"
+          onHide={null}
+          vertical="false"
+          visible={newActive || !!this.state.trainingToEdit}
+          width="wide"
+          direction="right"
+        >
+          {this.state.trainingToEdit ? (
+            <TrainingEdit
+              training={this.state.trainingToEdit}
+              onSuccess={() => {
+                this.refresh();
+                this.props.closeSidebar();
+                this.setState({ trainingToEdit: null });
+              }}
+              onCancel={() => {
+                this.props.closeSidebar();
+                this.setState({ trainingToEdit: null });
+              }}
+            />
+          ) : (
+            <TrainingAdd
+              refresh={() => this.refresh()}
+              closeSidebar={this.props.closeSidebar}
+            />
+          )}
+        </Sidebar>
+
+        <Modal
+          dimmer="inverted"
+          size="mini"
+          open={!!this.state.trainingPendingDelete}
+          onClose={() => this.setState({ trainingPendingDelete: null })}
+        >
+          {!!this.state.trainingPendingDelete && (
             <>
-                <h3>Upcoming Training Events</h3>
-                {this.props.searchValue === undefined ?
-                    <>
-                        <div>
-                            {this.state.trainings.map(training => (
-                                <TrainingCard
-                                    key={training.id}
-                                    training={training}
-                                    refresh={this.refresh}
-                                    sidebarState={this.props.sidebarState}
-                                    closeSidebar={this.props.closeSidebar} />
-                            ))}
-
-                        </div>
-                    </>
-                    :
-                    <div>
-
-                        <TrainingCard
-                            key={this.state.storedTraining.id}
-                            training={this.state.storedTraining}
-                            sidebarState={this.props.sidebarState}
-                            closeSidebar={this.props.closeSidebar} />
-                        <Sidebar
-                            animation='push'
-                            icon='labeled'
-                            inverted='false'
-                            onHide={null}
-                            vertical='false'
-                            visible={newActive}
-                            width='wide'
-                            direction='right'>
-                            <TrainingAdd
-                                closeSidebar={this.props.closeSidebar}
-                            />
-                        </Sidebar>
-                    </div>
-                }
+              <Modal.Header>
+                Delete {this.state.trainingPendingDelete.name}?
+              </Modal.Header>
+              <Modal.Content>
+                <p>Are you sure you want to remove this training program?</p>
+              </Modal.Content>
+              <Modal.Actions>
+                <Button onClick={this.removeTraining} color="orange">
+                  Remove Program
+                </Button>
+                <Button
+                  basic
+                  onClick={() => this.setState({ trainingPendingDelete: null })}
+                  color="orange"
+                  content="Go Back"
+                />
+              </Modal.Actions>
             </>
-        )
-    }
+          )}
+        </Modal>
+      </>
+    );
+  }
 }
 
-
-export default withRouter(TrainingList)
+export default withRouter(TrainingList);

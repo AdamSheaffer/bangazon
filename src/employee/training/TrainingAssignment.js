@@ -151,22 +151,25 @@ export default class TrainingAssignment extends Component {
                     <p>
                       {employee.firstName} is already registered for{" "}
                       <strong>{selectedTraining.name}</strong> on{" "}
-                      {new Date(selectedTraining.startDate).toLocaleString()}.
-                      Would you like to un-register this employee?
+                      {new Date(
+                        selectedTraining.startDate
+                      ).toLocaleDateString()}
+                      . Would you like to un-register this employee?
                     </p>
                   </Modal.Content>
                   <Modal.Actions>
                     <Button
-                      negative
+                      color="orange"
+                      onClick={this.unregisterProgram}
+                      content="Un-Register"
+                    />
+                    <Button
+                      basic
+                      color="orange"
                       onClick={() => this.setState({ modalOpen: false })}
                     >
-                      No
+                      Cancel
                     </Button>
-                    <Button
-                      positive
-                      onClick={this.unregisterProgram}
-                      content="Yes"
-                    />
                   </Modal.Actions>
                 </>
               ) : (
@@ -175,7 +178,10 @@ export default class TrainingAssignment extends Component {
                     <p>
                       Would you like to register {employee.firstName} for{" "}
                       {selectedTraining.name} on{" "}
-                      {new Date(selectedTraining.startDate).toLocaleString()}?
+                      {new Date(
+                        selectedTraining.startDate
+                      ).toLocaleDateString()}
+                      ?
                     </p>
                     <strong>
                       {selectedTraining.maxAttendees -
@@ -184,14 +190,15 @@ export default class TrainingAssignment extends Component {
                     </strong>
                   </Modal.Content>
                   <Modal.Actions>
+                    <Button color="orange" onClick={this.registerProgram}>
+                      Register
+                    </Button>
                     <Button
-                      negative
+                      basic
+                      color="orange"
                       onClick={() => this.setState({ modalOpen: false })}
                     >
-                      No
-                    </Button>
-                    <Button positive onClick={this.registerProgram}>
-                      Yes
+                      Cancel
                     </Button>
                   </Modal.Actions>
                 </>

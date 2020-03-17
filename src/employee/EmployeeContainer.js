@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import NavigationBar from "../nav/NavBar";
 import ComputerLanding from "./computer/ComputerLanding";
-import TrainingLanding from "./training/TrainingLanding";
 import EmployeeLanding from "./employee/EmployeeLanding";
 import DepartmentLanding from "./department/DepartmentLanding";
 import EmployeeDashboard from "./EmployeeDashboard";
@@ -81,7 +80,7 @@ export default class EmployeeContainer extends Component {
             path="/employee-portal/training/"
             render={props => {
               return (
-                <TrainingLanding
+                <TrainingList
                   sidebarState={this.state.addResourceSidebar}
                   closeSidebar={this.handleCloseNewResource}
                   {...props}
