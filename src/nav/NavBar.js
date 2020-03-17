@@ -10,8 +10,6 @@ export default class NavigationBar extends Component {
       this.props.location.pathname.startsWith("/customer-portal/customers/")
     ) {
       text = "Add a Customer";
-    } else if (this.props.location.pathname === "/employee-portal/") {
-      text = "Add an Employee";
     } else if (
       this.props.location.pathname.startsWith("/employee-portal/employees/")
     ) {
@@ -81,11 +79,13 @@ export default class NavigationBar extends Component {
                     return <SearchBar {...props} />;
                   }}
                 />
-                <div className="buttonContainer">
-                  <Button color="orange" onClick={this.props.openSidebar}>
-                    {text}
-                  </Button>
-                </div>
+                {!!text && (
+                  <div className="buttonContainer">
+                    <Button color="orange" onClick={this.props.openSidebar}>
+                      {text}
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -122,11 +122,13 @@ export default class NavigationBar extends Component {
                     return <SearchBar {...props} />;
                   }}
                 />
-                <div className="buttonContainer">
-                  <Button color="orange" onClick={this.props.openSidebar}>
-                    {text}
-                  </Button>
-                </div>
+                {!!text && (
+                  <div className="buttonContainer">
+                    <Button color="orange" onClick={this.props.openSidebar}>
+                      {text}
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -163,11 +165,13 @@ export default class NavigationBar extends Component {
                     return <SearchBar {...props} />;
                   }}
                 />
-                <div className="buttonContainer">
-                  <Button color="orange" onClick={this.props.openSidebar}>
-                    {text}
-                  </Button>
-                </div>
+                {text && (
+                  <div className="buttonContainer">
+                    <Button color="orange" onClick={this.props.openSidebar}>
+                      {text}
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -204,11 +208,13 @@ export default class NavigationBar extends Component {
                     return <SearchBar {...props} />;
                   }}
                 />
-                <div className="buttonContainer">
-                  <Button color="orange" onClick={this.props.openSidebar}>
-                    {text}
-                  </Button>
-                </div>
+                {!!text && (
+                  <div className="buttonContainer">
+                    <Button color="orange" onClick={this.props.openSidebar}>
+                      {text}
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -245,11 +251,13 @@ export default class NavigationBar extends Component {
                     return <SearchBar {...props} />;
                   }}
                 />
-                <div className="buttonContainer">
-                  <Button color="orange" onClick={this.props.openSidebar}>
-                    {text}
-                  </Button>
-                </div>
+                {text && (
+                  <div className="buttonContainer">
+                    <Button color="orange" onClick={this.props.openSidebar}>
+                      {text}
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           ) : null}

@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import APIManager from "../../api/APIManager";
-import { Button, Form, Header, Dropdown } from "semantic-ui-react";
-import moment from "moment";
+import { Button, Form, Header, Input } from "semantic-ui-react";
 import "../../App.css";
 
 export default class ComputerEdit extends Component {
   state = {
     purchaseDate: "",
-    decomissionDate: null,
+    decomissionDate: "",
     make: "",
     model: ""
   };
@@ -18,21 +17,16 @@ export default class ComputerEdit extends Component {
     this.setState(stateToChange);
   };
 
-  handleDropdownChange = (e, { value }) =>
-    this.setState({
-      decomissionDate: value
-    });
-
   updateComputer = evt => {
     evt.preventDefault();
     const updatedComputer = {
       id: this.props.computer.id,
-      purchaseDate: moment(
-        this.state.purchaseDate,
-        "MM/DD/YYYY",
-        true
-      ).format(),
-      decomissionDate: this.state.decomissionDate,
+      purchaseDate:
+        this.state.purchaseDate &&
+        new Date(this.state.purchaseDate).toISOString(),
+      decomissionDate:
+        this.state.decomissionDate &&
+        new Date(this.state.decomissionDate).toISOString(),
       make: this.state.make,
       model: this.state.model
     };
@@ -42,13 +36,23 @@ export default class ComputerEdit extends Component {
     this.props.closeSidebar();
   };
 
-  render() {
-    let date = moment(Date.now()).format();
-    const booleanOptions = [
-      { key: 1, text: "Active", value: 0 },
-      { key: 2, text: "Inactive", value: date }
-    ];
+  componentDidMount() {
+    const { id } = this.props.computer;
+    APIManager.getById("computers", id).then(computer => {
+      this.setState({
+        purchaseDate:
+          computer.purchaseDate &&
+          new Date(computer.purchaseDate).toLocaleDateString(),
+        decomissionDate:
+          computer.decomissionDate &&
+          new Date(computer.decomissionDate).toLocaleDateString(),
+        make: computer.make,
+        model: computer.model
+      });
+    });
+  }
 
+  render() {
     return (
       <>
         <Form>
@@ -71,27 +75,23 @@ export default class ComputerEdit extends Component {
             <label>Purchase Date</label>
             <input
               onChange={this.handleFieldChange}
-              placeholder={moment(this.props.computer.purchaseDate).format(
-                "MM/DD/YYYY"
-              )}
+              value={this.state.purchaseDate}
               id="purchaseDate"
             />
           </div>
           <div className="fifteen wide field">
-            <label>Active or Inactive?</label>
-            <Dropdown
-              selection
-              placeholder="Set Active Status"
-              options={booleanOptions}
-              onChange={this.handleDropdownChange}
+            <label>Decomission Date</label>
+            <Input
+              onChange={this.handleFieldChange}
               id="decomissionDate"
+              value={this.state.decomissionDate}
             />
           </div>
           <div className="fifteen wide field">
             <label>Computer Make</label>
             <input
               onChange={this.handleFieldChange}
-              placeholder={this.props.computer.make}
+              value={this.state.make}
               id="make"
             />
           </div>
@@ -100,7 +100,7 @@ export default class ComputerEdit extends Component {
             <label>Computer Model</label>
             <input
               onChange={this.handleFieldChange}
-              placeholder={this.props.computer.model}
+              value={this.state.model}
               id="model"
             />
           </div>

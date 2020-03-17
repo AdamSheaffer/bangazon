@@ -45,11 +45,7 @@ export default class ComputerTable extends Component {
   };
 
   refresh = () => {
-    APIManager.getAll("computers").then(response => {
-      this.setState({
-        computers: response
-      });
-    });
+    this.changeFilter(this.state.filter);
   };
 
   handleOpen = computer =>
@@ -108,10 +104,7 @@ export default class ComputerTable extends Component {
                   {moment(computer.purchaseDate).format("MM/DD/YYYY")}
                 </Table.Cell>
                 <Table.Cell>
-                  {computer.decomissionDate === 0 ||
-                  computer.decomissionDate === null
-                    ? "Active"
-                    : "Inactive"}
+                  {!computer.decomissionDate ? "Active" : "Inactive"}
                 </Table.Cell>
                 <Table.Cell>
                   <Button basic onClick={() => this.handleOpen(computer)} icon>
@@ -132,11 +125,13 @@ export default class ComputerTable extends Component {
           width="wide"
           direction="right"
         >
-          <ComputerEdit
-            closeSidebar={this.handleClose}
-            refresh={this.refresh}
-            computer={this.state.storedComputer}
-          />
+          {active && this.state.storedComputer ? (
+            <ComputerEdit
+              closeSidebar={this.handleClose}
+              refresh={this.refresh}
+              computer={this.state.storedComputer}
+            />
+          ) : null}
         </Sidebar>
         <Sidebar
           animation="push"

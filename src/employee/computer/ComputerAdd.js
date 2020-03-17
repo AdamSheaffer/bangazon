@@ -1,10 +1,10 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import APIManager from "../../api/APIManager";
-import { Button, Form, Header, Dropdown } from "semantic-ui-react";
-import moment from "moment";
+import { Button, Form, Header } from "semantic-ui-react";
 import "../../App.css";
 
-export default class ComputerAdd extends Component {
+class ComputerAdd extends Component {
   state = {
     newPurchaseDate: "",
     decomissionDate: null,
@@ -24,26 +24,19 @@ export default class ComputerAdd extends Component {
   addComputer = evt => {
     evt.preventDefault();
     const newComputer = {
-      purchaseDate: moment(
-        this.state.newPurchaseDate,
-        "MM/DD/YYYY",
-        true
-      ).format(),
-      decomissionDate: this.state.decomissionDate,
+      purchaseDate:
+        this.state.newPurchaseDate &&
+        new Date(this.state.newPurchaseDate).toISOString(),
       make: this.state.newMake,
       model: this.state.newModel
     };
     APIManager.addData("computers", newComputer);
     this.props.closeSidebar();
+    this.props.refresh();
     this.props.history.push("/employee-portal/computers/");
   };
 
   render() {
-    const booleanOptions = [
-      { key: 1, text: "Active", value: 0 },
-      { key: 2, text: "Inactive", value: false }
-    ];
-
     return (
       <>
         <Form>
@@ -65,16 +58,6 @@ export default class ComputerAdd extends Component {
               onChange={this.handleFieldChange}
               placeholder="MM/DD/YYYY"
               id="newPurchaseDate"
-            />
-          </div>
-          <div className="fifteen wide field">
-            <label>Active or Inactive</label>
-            <Dropdown
-              selection
-              placeholder="Set Active Status"
-              options={booleanOptions}
-              onChange={this.handleDropdownChange}
-              id="decomissionDate"
             />
           </div>
           <div className="fifteen wide field">
@@ -113,3 +96,5 @@ export default class ComputerAdd extends Component {
     );
   }
 }
+
+export default withRouter(ComputerAdd);
