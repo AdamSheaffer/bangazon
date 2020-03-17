@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import APIManager from "../../api/APIManager";
+import { notify } from "react-notify-toast";
 import { Button, Form, Header, Input } from "semantic-ui-react";
 import "../../App.css";
 
@@ -30,26 +31,34 @@ export default class ComputerEdit extends Component {
       make: this.state.make,
       model: this.state.model
     };
-    APIManager.updateData("computers", updatedComputer).then(() =>
-      this.props.refresh()
-    );
-    this.props.closeSidebar();
+    APIManager.updateData("computers", updatedComputer)
+      .then(() => {
+        this.props.refresh();
+        this.props.closeSidebar();
+      })
+      .catch(err => {
+        notify.show("There was an error updating your computer", "error");
+      });
   };
 
   componentDidMount() {
     const { id } = this.props.computer;
-    APIManager.getById("computers", id).then(computer => {
-      this.setState({
-        purchaseDate:
-          computer.purchaseDate &&
-          new Date(computer.purchaseDate).toLocaleDateString(),
-        decomissionDate:
-          computer.decomissionDate &&
-          new Date(computer.decomissionDate).toLocaleDateString(),
-        make: computer.make,
-        model: computer.model
+    APIManager.getById("computers", id)
+      .then(computer => {
+        this.setState({
+          purchaseDate:
+            computer.purchaseDate &&
+            new Date(computer.purchaseDate).toLocaleDateString(),
+          decomissionDate:
+            computer.decomissionDate &&
+            new Date(computer.decomissionDate).toLocaleDateString(),
+          make: computer.make,
+          model: computer.model
+        });
+      })
+      .catch(err => {
+        notify.show("There was an error getting computer data", "error");
       });
-    });
   }
 
   render() {

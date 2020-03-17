@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import APIManager from "../../api/APIManager";
 import { Button, Form, Header } from "semantic-ui-react";
+import { notify } from "react-notify-toast";
 
 export default class TrainingEdit extends Component {
   state = {
@@ -26,22 +27,28 @@ export default class TrainingEdit extends Component {
       endDate: new Date(this.state.endDate).toISOString(),
       maxAttendees: +this.state.maxAttendees
     };
-    APIManager.updateData("trainingPrograms", updatedTraining).then(() =>
-      this.props.onSuccess()
-    );
+    APIManager.updateData("trainingPrograms", updatedTraining)
+      .then(() => this.props.onSuccess())
+      .catch(err => {
+        notify.show("There was an error updating your program", "error");
+      });
   };
 
   componentDidMount() {
     const { id } = this.props.training;
-    APIManager.getById("trainingPrograms", id).then(tp => {
-      this.setState({
-        name: tp.name,
-        startDate: new Date(tp.startDate).toLocaleDateString(),
-        endDate: new Date(tp.endDate).toLocaleDateString(),
-        maxAttendees: tp.maxAttendees,
-        employees: tp.employees
+    APIManager.getById("trainingPrograms", id)
+      .then(tp => {
+        this.setState({
+          name: tp.name,
+          startDate: new Date(tp.startDate).toLocaleDateString(),
+          endDate: new Date(tp.endDate).toLocaleDateString(),
+          maxAttendees: tp.maxAttendees,
+          employees: tp.employees
+        });
+      })
+      .catch(err => {
+        notify.show("There was an error getting program data", "error");
       });
-    });
   }
 
   render() {

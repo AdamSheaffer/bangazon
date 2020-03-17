@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import APIManager from "../../api/APIManager";
 import { Button, Form, Header, Dropdown } from "semantic-ui-react";
+import { notify } from "react-notify-toast";
 
 export default class EmployeeAdd extends Component {
   state = {
@@ -39,35 +40,45 @@ export default class EmployeeAdd extends Component {
       computerId: parseInt(this.state.newComputerId),
       email: this.state.newEmail
     };
-    APIManager.addData("employees", newEmployee).then(() =>
-      this.props.closeSidebar()
-    );
+    APIManager.addData("employees", newEmployee)
+      .then(() => this.props.closeSidebar())
+      .catch(err => {
+        notify.show("There was an error adding your employee", "error");
+      });
   };
 
   componentDidMount() {
-    APIManager.getAll("departments").then(departments => {
-      const options = departments.map(d => {
-        return {
-          key: d.id,
-          text: d.name,
-          value: d.id
-        };
+    APIManager.getAll("departments")
+      .then(departments => {
+        const options = departments.map(d => {
+          return {
+            key: d.id,
+            text: d.name,
+            value: d.id
+          };
+        });
+        this.setState({
+          departments: options
+        });
+      })
+      .catch(err => {
+        notify.show("There was an error getting department data", "error");
       });
-      this.setState({
-        departments: options
-      });
-    });
 
-    APIManager.getComputersByAvailability(true).then(computers => {
-      const options = computers.map(c => {
-        return {
-          key: c.id,
-          value: c.id,
-          text: `${c.make} ${c.model}`
-        };
+    APIManager.getComputersByAvailability(true)
+      .then(computers => {
+        const options = computers.map(c => {
+          return {
+            key: c.id,
+            value: c.id,
+            text: `${c.make} ${c.model}`
+          };
+        });
+        this.setState({ computers: options });
+      })
+      .catch(err => {
+        notify.show("There was an error getting computer data", "error");
       });
-      this.setState({ computers: options });
-    });
   }
 
   render() {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import APIManager from "../../api/APIManager";
 import { Button, Form, Header, Dropdown } from "semantic-ui-react";
+import { notify } from "react-notify-toast";
 
 export default class EmployeeEdit extends Component {
   state = {
@@ -58,6 +59,9 @@ export default class EmployeeEdit extends Component {
             computers: options
           });
         });
+      })
+      .catch(err => {
+        notify.show("An unexpected error occurred", "error");
       });
   }
 
@@ -87,10 +91,14 @@ export default class EmployeeEdit extends Component {
       computerId: parseInt(this.state.computerId),
       email: this.state.email
     };
-    APIManager.updateData("employees", updatedEmployee).then(() => {
-      this.props.closeSidebar();
-      this.props.onUpdate();
-    });
+    APIManager.updateData("employees", updatedEmployee)
+      .then(() => {
+        this.props.closeSidebar();
+        this.props.onUpdate();
+      })
+      .catch(err => {
+        notify.show("There was an error updating your employee", "error");
+      });
   };
 
   render() {

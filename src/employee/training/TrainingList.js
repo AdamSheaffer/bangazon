@@ -4,7 +4,7 @@ import TrainingAdd from "./TrainingAdd";
 import TrainingEdit from "./TrainingEdit";
 import { withRouter } from "react-router-dom";
 import { Sidebar, Table, Button, Icon, Modal } from "semantic-ui-react";
-import moment from "moment";
+import { notify } from "react-notify-toast";
 
 class TrainingList extends Component {
   state = {
@@ -14,11 +14,15 @@ class TrainingList extends Component {
   };
 
   refresh = () => {
-    APIManager.getAll("trainingPrograms").then(response => {
-      this.setState({
-        trainings: response
+    APIManager.getAll("trainingPrograms")
+      .then(response => {
+        this.setState({
+          trainings: response
+        });
+      })
+      .catch(err => {
+        notify.show("There was an error getting training programs", "error");
       });
-    });
   };
 
   removeTraining = () => {
@@ -29,6 +33,12 @@ class TrainingList extends Component {
           trainings: response,
           trainingPendingDelete: null
         });
+      })
+      .catch(err => {
+        notify.show(
+          "There was an error removing the training program",
+          "error"
+        );
       });
   };
 
@@ -38,19 +48,25 @@ class TrainingList extends Component {
 
   loadData = () => {
     if (!this.props.searchValue) {
-      APIManager.getAll("trainingPrograms").then(response => {
-        this.setState({
-          trainings: response
+      APIManager.getAll("trainingPrograms")
+        .then(response => {
+          this.setState({
+            trainings: response
+          });
+        })
+        .catch(err => {
+          notify.show("There was an error getting training programs", "error");
         });
-      });
     } else
-      APIManager.getById("trainingPrograms", this.props.searchValue).then(
-        response => {
+      APIManager.getById("trainingPrograms", this.props.searchValue)
+        .then(response => {
           this.setState({
             trainings: [response]
           });
-        }
-      );
+        })
+        .catch(err => {
+          notify.show("There was an error getting training programs", "error");
+        });
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -79,8 +95,15 @@ class TrainingList extends Component {
                 <Table.Cell>#{t.id}</Table.Cell>
                 <Table.Cell>{t.name}</Table.Cell>
                 <Table.Cell>
-                  {moment(t.startDate).format("MMM Do")} {" - "}
-                  {moment(t.endDate).format("MMM Do")}
+                  {new Intl.DateTimeFormat("en-US", {
+                    month: "short",
+                    day: "numeric"
+                  }).format(new Date(t.startDate))}{" "}
+                  {" - "}
+                  {new Intl.DateTimeFormat("en-US", {
+                    month: "short",
+                    day: "numeric"
+                  }).format(new Date(t.endDate))}
                 </Table.Cell>
                 <Table.Cell>{t.maxAttendees}</Table.Cell>
                 <Table.Cell>

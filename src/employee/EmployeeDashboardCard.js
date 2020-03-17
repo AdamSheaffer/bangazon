@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Card, Header, Icon, List, Divider } from "semantic-ui-react";
 import APIManager from "../api/APIManager";
+import { notify } from "react-notify-toast";
 
 export default class EmployeeDashboardCard extends Component {
   state = {
@@ -10,20 +11,24 @@ export default class EmployeeDashboardCard extends Component {
   };
 
   componentDidMount() {
-    APIManager.getAll("employees").then(data => {
-      const totalCount = data.length;
-      const employees = data.slice(totalCount - 3, totalCount).map(e => {
-        return {
-          id: e.id,
-          name: `${e.firstName} ${e.lastName}`,
-          email: e.email
-        };
+    APIManager.getAll("employees")
+      .then(data => {
+        const totalCount = data.length;
+        const employees = data.slice(totalCount - 3, totalCount).map(e => {
+          return {
+            id: e.id,
+            name: `${e.firstName} ${e.lastName}`,
+            email: e.email
+          };
+        });
+        this.setState({
+          employees,
+          totalCount
+        });
+      })
+      .catch(err => {
+        notify.show("There was an error getting department data", "error");
       });
-      this.setState({
-        employees,
-        totalCount
-      });
-    });
   }
 
   render() {

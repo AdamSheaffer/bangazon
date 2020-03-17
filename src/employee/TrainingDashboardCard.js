@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Card, Header, Icon } from "semantic-ui-react";
 import APIManager from "../api/APIManager";
+import { notify } from "react-notify-toast";
 
 export default class TrainingDashboardCard extends Component {
   state = {
@@ -9,26 +10,30 @@ export default class TrainingDashboardCard extends Component {
   };
 
   componentDidMount() {
-    APIManager.getAll("trainingPrograms").then(programs => {
-      const dateOptions = {
-        weekday: "short",
-        year: "numeric",
-        month: "short",
-        day: "numeric"
-      };
-      const formatter = new Intl.DateTimeFormat("en-US", dateOptions);
-      const trainingPrograms = programs.slice(0, 3).map(p => {
-        return {
-          id: p.id,
-          name: p.name,
-          start: formatter.format(new Date(p.startDate)),
-          end: formatter.format(new Date(p.endDate))
+    APIManager.getAll("trainingPrograms")
+      .then(programs => {
+        const dateOptions = {
+          weekday: "short",
+          year: "numeric",
+          month: "short",
+          day: "numeric"
         };
+        const formatter = new Intl.DateTimeFormat("en-US", dateOptions);
+        const trainingPrograms = programs.slice(0, 3).map(p => {
+          return {
+            id: p.id,
+            name: p.name,
+            start: formatter.format(new Date(p.startDate)),
+            end: formatter.format(new Date(p.endDate))
+          };
+        });
+        this.setState({
+          trainingPrograms
+        });
+      })
+      .catch(err => {
+        notify.show("There was an error getting training programs", "error");
       });
-      this.setState({
-        trainingPrograms
-      });
-    });
   }
 
   render() {

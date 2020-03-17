@@ -5,6 +5,7 @@ import EmployeeAdd from "./EmployeeAdd";
 import { withRouter } from "react-router-dom";
 import EmployeeDetails from "./EmployeeDetails";
 import { Sidebar, Grid } from "semantic-ui-react";
+import { notify } from "react-notify-toast";
 
 class EmployeeList extends Component {
   state = {
@@ -20,11 +21,15 @@ class EmployeeList extends Component {
       this.setState({ selectedEmployee: null });
       return;
     }
-    APIManager.getById("employees", id).then(employee => {
-      this.setState({
-        selectedEmployee: employee
+    APIManager.getById("employees", id)
+      .then(employee => {
+        this.setState({
+          selectedEmployee: employee
+        });
+      })
+      .catch(err => {
+        notify.show("There was an error getting employee data", "error");
       });
-    });
   };
 
   searchEmployees = () => {
@@ -33,15 +38,19 @@ class EmployeeList extends Component {
       APIManager.searchForEmployeeByName(
         this.props.searchValue[0],
         this.props.searchValue[1]
-      ).then(response => {
-        const employees = response.map(e => {
-          e.department = this.state.departments.find(
-            d => d.id === e.departmentId
-          );
-          return e;
+      )
+        .then(response => {
+          const employees = response.map(e => {
+            e.department = this.state.departments.find(
+              d => d.id === e.departmentId
+            );
+            return e;
+          });
+          this.setState({ employees, selectedEmployee: null });
+        })
+        .catch(err => {
+          notify.show("There was an error getting employee data", "error");
         });
-        this.setState({ employees, selectedEmployee: null });
-      });
   };
 
   componentDidMount() {

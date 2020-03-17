@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ComputerEdit from "./ComputerEdit";
 import ComputerAdd from "./ComputerAdd";
 import APIManager from "../../api/APIManager";
+import { notify } from "react-notify-toast";
 import { Table, Button, Sidebar, Icon } from "semantic-ui-react";
 import "../../App.css";
 
@@ -16,17 +17,25 @@ export default class ComputerTable extends Component {
 
   componentDidMount() {
     if (this.props.searchValue) {
-      APIManager.getById("computers", this.props.searchValue).then(response => {
-        this.setState({
-          computers: [response]
+      APIManager.getById("computers", this.props.searchValue)
+        .then(response => {
+          this.setState({
+            computers: [response]
+          });
+        })
+        .catch(err => {
+          notify.show("There was an error getting computers", "error");
         });
-      });
     } else {
-      APIManager.getAll("computers").then(response => {
-        this.setState({
-          computers: response
+      APIManager.getAll("computers")
+        .then(response => {
+          this.setState({
+            computers: response
+          });
+        })
+        .catch(err => {
+          notify.show("There was an error getting computers", "error");
         });
-      });
     }
   }
 
@@ -43,12 +52,16 @@ export default class ComputerTable extends Component {
         request = APIManager.getAll("computers");
         break;
     }
-    request.then(response => {
-      this.setState({
-        filter,
-        computers: response
+    request
+      .then(response => {
+        this.setState({
+          filter,
+          computers: response
+        });
+      })
+      .catch(err => {
+        notify.show("There was an error getting computers", "error");
       });
-    });
   };
 
   refresh = () => {

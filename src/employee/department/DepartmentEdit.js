@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import APIManager from "../../api/APIManager";
 import { Button, Form, Header } from "semantic-ui-react";
+import { notify } from "react-notify-toast";
 
 export default class DepartmentEdit extends Component {
   state = {
@@ -12,13 +13,17 @@ export default class DepartmentEdit extends Component {
 
   componentDidMount() {
     const { id } = this.props.department;
-    APIManager.getDeptWithEmployees(id).then(d => {
-      this.setState({
-        name: d.name,
-        budget: d.budget,
-        totalEmployees: d.employees && d.employees.length
+    APIManager.getDeptWithEmployees(id)
+      .then(d => {
+        this.setState({
+          name: d.name,
+          budget: d.budget,
+          totalEmployees: d.employees && d.employees.length
+        });
+      })
+      .catch(err => {
+        notify.show("There was an error getting department data", "error");
       });
-    });
   }
 
   handleFieldChange = evt => {
@@ -35,10 +40,14 @@ export default class DepartmentEdit extends Component {
       budget: parseInt(this.state.budget)
     };
 
-    APIManager.updateData("departments", updatedDepartment).then(() =>
-      this.props.refresh()
-    );
-    this.props.closeSidebar();
+    APIManager.updateData("departments", updatedDepartment)
+      .then(() => {
+        this.props.refresh();
+        this.props.closeSidebar();
+      })
+      .catch(err => {
+        notify.show("There was an error updating your department", "error");
+      });
   };
 
   render() {

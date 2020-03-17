@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import { notify } from "react-notify-toast";
 import APIManager from "../../api/APIManager";
 import { Button, Form, Header } from "semantic-ui-react";
 import "../../App.css";
@@ -30,10 +31,15 @@ class ComputerAdd extends Component {
       make: this.state.newMake,
       model: this.state.newModel
     };
-    APIManager.addData("computers", newComputer);
-    this.props.closeSidebar();
-    this.props.refresh();
-    this.props.history.push("/employee-portal/computers/");
+    APIManager.addData("computers", newComputer)
+      .then(() => {
+        this.props.closeSidebar();
+        this.props.refresh();
+        this.props.history.push("/employee-portal/computers/");
+      })
+      .catch(err => {
+        notify.show("There was an error adding your computer", "error");
+      });
   };
 
   render() {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import APIManager from "../../api/APIManager";
 import { Button, Form, Header } from "semantic-ui-react";
+import { notify } from "react-notify-toast";
 
 export default class TrainingAdd extends Component {
   state = {
@@ -24,16 +25,20 @@ export default class TrainingAdd extends Component {
       endDate: new Date(this.state.newEndDate).toISOString(),
       maxAttendees: this.state.newMaxAttendees
     };
-    APIManager.addData("trainingPrograms", newTraining).then(() => {
-      this.setState({
-        newTrainingName: "",
-        newStartDate: "",
-        newEndDate: "",
-        newMaxAttendees: ""
+    APIManager.addData("trainingPrograms", newTraining)
+      .then(() => {
+        this.setState({
+          newTrainingName: "",
+          newStartDate: "",
+          newEndDate: "",
+          newMaxAttendees: ""
+        });
+        this.props.refresh();
+        this.props.closeSidebar();
+      })
+      .catch(err => {
+        notify.show("There was an error adding your program", "error");
       });
-      this.props.refresh();
-    });
-    this.props.closeSidebar();
   };
 
   render() {

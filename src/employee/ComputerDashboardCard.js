@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Card, Header, Table, Icon } from "semantic-ui-react";
 import APIManager from "../api/APIManager";
+import { notify } from "react-notify-toast";
 
 export default class ComputerDashboardCard extends Component {
   state = {
@@ -9,18 +10,22 @@ export default class ComputerDashboardCard extends Component {
   };
 
   componentDidMount() {
-    APIManager.getComputersByAvailability(true).then(data => {
-      const computers = data.slice(0, 5).map(c => {
-        return {
-          id: c.id,
-          make: c.make,
-          model: c.model
-        };
+    APIManager.getComputersByAvailability(true)
+      .then(data => {
+        const computers = data.slice(0, 5).map(c => {
+          return {
+            id: c.id,
+            make: c.make,
+            model: c.model
+          };
+        });
+        this.setState({
+          computers
+        });
+      })
+      .catch(err => {
+        notify.show("There was an error getting computer data", "error");
       });
-      this.setState({
-        computers
-      });
-    });
   }
 
   render() {

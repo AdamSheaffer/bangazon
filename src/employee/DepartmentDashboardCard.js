@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Card, Grid, Divider, Header, Icon } from "semantic-ui-react";
 import { Doughnut } from "react-chartjs-2";
 import APIManager from "../api/APIManager";
+import { notify } from "react-notify-toast";
 
 const chartColors = [
   "rgba(87, 202, 219, .9)",
@@ -27,25 +28,29 @@ export default class DepartmentDashboardCard extends Component {
   };
 
   componentDidMount() {
-    APIManager.getAll("departments").then(departments => {
-      const chartData = {
-        labels: departments.map(d => d.name),
-        datasets: [
-          {
-            label: "Budget",
-            data: departments.map(d => d.budget),
-            backgroundColor: chartColors
-          }
-        ]
-      };
-      const totalBudget = departments.reduce((p, c) => p + c.budget, 0);
-      const formatter = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD"
+    APIManager.getAll("departments")
+      .then(departments => {
+        const chartData = {
+          labels: departments.map(d => d.name),
+          datasets: [
+            {
+              label: "Budget",
+              data: departments.map(d => d.budget),
+              backgroundColor: chartColors
+            }
+          ]
+        };
+        const totalBudget = departments.reduce((p, c) => p + c.budget, 0);
+        const formatter = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD"
+        });
+        const totalBudgetDisplay = formatter.format(totalBudget);
+        this.setState({ departments, chartData, totalBudgetDisplay });
+      })
+      .catch(err => {
+        notify.show("There was an error getting department data", "error");
       });
-      const totalBudgetDisplay = formatter.format(totalBudget);
-      this.setState({ departments, chartData, totalBudgetDisplay });
-    });
   }
 
   render() {

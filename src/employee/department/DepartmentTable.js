@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import DepartmentEdit from "./DepartmentEdit";
 import DepartmentAdd from "./DepartmentAdd";
 import APIManager from "../../api/APIManager";
+import { notify } from "react-notify-toast";
 import { Table, Button, Sidebar, Icon } from "semantic-ui-react";
 import "../../App.css";
 
@@ -15,19 +16,25 @@ export default class ComputerTable extends Component {
 
   componentDidMount() {
     if (this.props.searchValue) {
-      APIManager.getById("departments", this.props.searchValue).then(
-        response => {
+      APIManager.getById("departments", this.props.searchValue)
+        .then(response => {
           this.setState({
             departments: [response]
           });
-        }
-      );
-    } else {
-      APIManager.getAll("departments").then(response => {
-        this.setState({
-          departments: response
+        })
+        .catch(err => {
+          notify.show("There was an error getting department data", "error");
         });
-      });
+    } else {
+      APIManager.getAll("departments")
+        .then(response => {
+          this.setState({
+            departments: response
+          });
+        })
+        .catch(err => {
+          notify.show("There was an error getting department data", "error");
+        });
     }
   }
 
