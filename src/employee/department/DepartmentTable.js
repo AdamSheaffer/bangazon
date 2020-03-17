@@ -8,17 +8,27 @@ import "../../App.css";
 export default class ComputerTable extends Component {
   state = {
     departments: [],
-    storedDepartment: {},
+    departmentToEdit: {},
     visible: false,
     newSidebarState: this.props.sidebarState
   };
 
   componentDidMount() {
-    APIManager.getAll("departments").then(response => {
-      this.setState({
-        departments: response
+    if (this.props.searchValue) {
+      APIManager.getById("departments", this.props.searchValue).then(
+        response => {
+          this.setState({
+            departments: [response]
+          });
+        }
+      );
+    } else {
+      APIManager.getAll("departments").then(response => {
+        this.setState({
+          departments: response
+        });
       });
-    });
+    }
   }
 
   refresh = () => {
@@ -32,7 +42,7 @@ export default class ComputerTable extends Component {
   handleOpen = department =>
     this.setState({
       active: true,
-      storedDepartment: department
+      departmentToEdit: department
     });
 
   handleClose = () => this.setState({ active: false });
@@ -88,7 +98,7 @@ export default class ComputerTable extends Component {
             <DepartmentEdit
               closeSidebar={this.handleClose}
               refresh={this.refresh}
-              department={this.state.storedDepartment}
+              department={this.state.departmentToEdit}
             />
           ) : null}
         </Sidebar>

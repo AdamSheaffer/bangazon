@@ -3,12 +3,11 @@ import ComputerEdit from "./ComputerEdit";
 import ComputerAdd from "./ComputerAdd";
 import APIManager from "../../api/APIManager";
 import { Table, Button, Sidebar, Icon } from "semantic-ui-react";
-import moment from "moment";
 import "../../App.css";
 
 export default class ComputerTable extends Component {
   state = {
-    filter: "all",
+    filter: this.props.searchValue ? null : "all",
     computers: [],
     storedComputer: {},
     visible: false,
@@ -16,11 +15,19 @@ export default class ComputerTable extends Component {
   };
 
   componentDidMount() {
-    APIManager.getAll("computers").then(response => {
-      this.setState({
-        computers: response
+    if (this.props.searchValue) {
+      APIManager.getById("computers", this.props.searchValue).then(response => {
+        this.setState({
+          computers: [response]
+        });
       });
-    });
+    } else {
+      APIManager.getAll("computers").then(response => {
+        this.setState({
+          computers: response
+        });
+      });
+    }
   }
 
   changeFilter = filter => {
@@ -101,7 +108,7 @@ export default class ComputerTable extends Component {
                 </Table.Cell>
                 <Table.Cell>
                   {" "}
-                  {moment(computer.purchaseDate).format("MM/DD/YYYY")}
+                  {new Date(computer.purchaseDate).toLocaleDateString()}
                 </Table.Cell>
                 <Table.Cell>
                   {!computer.decomissionDate ? "Active" : "Inactive"}

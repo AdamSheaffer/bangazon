@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import NavigationBar from "../nav/NavBar";
-import ComputerLanding from "./computer/ComputerLanding";
-import EmployeeLanding from "./employee/EmployeeLanding";
-import DepartmentLanding from "./department/DepartmentLanding";
+import DepartmentTable from "./department/DepartmentTable";
 import EmployeeDashboard from "./EmployeeDashboard";
 import SideBar from "../nav/SideBar";
 import EmployeeList from "./employee/EmployeeList";
-import ComputerList from "./computer/ComputerList";
-import DepartmentList from "./department/DepartmentList";
+import ComputerTable from "./computer/ComputerTable";
 import TrainingList from "./training/TrainingList";
 
 export default class EmployeeContainer extends Component {
@@ -51,7 +48,7 @@ export default class EmployeeContainer extends Component {
             path="/employee-portal/computers/"
             render={props => {
               return (
-                <ComputerLanding
+                <ComputerTable
                   sidebarState={this.state.addResourceSidebar}
                   closeSidebar={this.handleCloseNewResource}
                   {...props}
@@ -65,7 +62,7 @@ export default class EmployeeContainer extends Component {
             render={props => {
               const searchValue = parseInt(props.match.params.computerId);
               return (
-                <ComputerList
+                <ComputerTable
                   searchValue={searchValue}
                   sidebarState={this.state.addResourceSidebar}
                   closeSidebar={this.handleCloseNewResource}
@@ -108,13 +105,7 @@ export default class EmployeeContainer extends Component {
             exact
             path="/employee-portal/employees/"
             render={props => {
-              return (
-                <EmployeeLanding
-                  sidebarState={this.state.addResourceSidebar}
-                  closeSidebar={this.handleCloseNewResource}
-                  {...props}
-                />
-              );
+              return <EmployeeList />;
             }}
           />
 
@@ -139,10 +130,9 @@ export default class EmployeeContainer extends Component {
             path="/employee-portal/departments/"
             render={props => {
               return (
-                <DepartmentLanding
+                <DepartmentTable
                   sidebarState={this.state.addResourceSidebar}
                   closeSidebar={this.handleCloseNewResource}
-                  {...props}
                 />
               );
             }}
@@ -153,7 +143,7 @@ export default class EmployeeContainer extends Component {
             render={props => {
               const searchValue = parseInt(props.match.params.departmentId);
               return (
-                <DepartmentList
+                <DepartmentTable
                   searchValue={searchValue}
                   sidebarState={this.state.addResourceSidebar}
                   closeSidebar={this.handleCloseNewResource}
