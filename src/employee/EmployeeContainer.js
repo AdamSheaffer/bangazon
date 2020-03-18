@@ -105,7 +105,13 @@ export default class EmployeeContainer extends Component {
             exact
             path="/employee-portal/employees/"
             render={props => {
-              return <EmployeeList />;
+              return (
+                <EmployeeList
+                  sidebarState={this.state.addResourceSidebar}
+                  closeSidebar={this.handleCloseNewResource}
+                  {...props}
+                />
+              );
             }}
           />
 
