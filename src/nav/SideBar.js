@@ -32,20 +32,20 @@ class SideBar extends Component {
 
   customerOptions = [
     {
-      title: "Customers",
+      title: "CUSTOMERS",
       link: "/customer-portal/customers"
     },
     {
-      title: "Products",
+      title: "PRODUCTS",
       link: "/customer-portal/products"
     },
     {
-      title: "Orders",
+      title: "ORDERS",
       link: "/customer-portal/orders"
     },
     {
-      title: "Payments",
-      link: "/customer-portal/payments"
+      title: "PAYMENTS",
+      link: "/customer-portal/payment-types"
     }
   ];
   handleItemClick = (e, { name, url }) => {
