@@ -4,7 +4,7 @@ import EmployeeCard from "./EmployeeCard";
 import EmployeeAdd from "./EmployeeAdd";
 import { withRouter } from "react-router-dom";
 import EmployeeDetails from "./EmployeeDetails";
-import { Sidebar, Grid } from "semantic-ui-react";
+import { Sidebar, Grid, Header, Container } from "semantic-ui-react";
 import { notify } from "react-notify-toast";
 
 class EmployeeList extends Component {
@@ -72,13 +72,16 @@ class EmployeeList extends Component {
       <>
         {this.props.searchValue === undefined ? (
           <>
-            <div className="imgContainer">
+            <Container textAlign="center">
               <img
                 src={require("../../images/Empty-State-Charts.png")}
                 className="employeeSearchImg"
                 alt="magnifying glass"
-              ></img>
-            </div>
+              />
+              <Header color="grey" as="h2">
+                Search Employees
+              </Header>
+            </Container>
           </>
         ) : (
           <Grid>

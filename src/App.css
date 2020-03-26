@@ -151,6 +151,9 @@
   max-width: 40%;
 }
 
+.customer-image {
+}
+
 .departmentImage {
   max-width: 70%;
 }
@@ -225,7 +228,7 @@
 }
 
 .buttonContainer {
-  margin-left: 10px;
+  margin-left: 10px !important;
 }
 /* NavBar End */
 
@@ -337,4 +340,12 @@
 
 .payment-types__img {
   height: 400px;
+}
+
+.search-by__radio {
+  margin: 0 20px;
+}
+
+.search-by__radio--selected label {
+  color: #6a78d1;
 }

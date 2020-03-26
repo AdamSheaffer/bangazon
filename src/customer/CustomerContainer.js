@@ -3,6 +3,7 @@ import { Route, Link } from "react-router-dom";
 import { Button } from "semantic-ui-react";
 import SideBar from "../nav/SideBar";
 import PaymentTypesList from "./paymentTypes/PaymentTypesList";
+import CustomerLanding from "./customers/CustomerLanding";
 
 export default class CustomerContainer extends Component {
   render() {
@@ -21,6 +22,11 @@ export default class CustomerContainer extends Component {
             exact
             path="/customer-portal/payment-types/"
             render={() => <PaymentTypesList />}
+          />
+          <Route
+            exact
+            path="/customer-portal/customers/"
+            render={() => <CustomerLanding />}
           />
         </div>
       </>

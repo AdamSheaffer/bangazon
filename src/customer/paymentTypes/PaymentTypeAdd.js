@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button, Form, Header } from "semantic-ui-react";
-import APIManager from "../../api/APIManager";
 
 export default class PaymentTypeAdd extends Component {
   state = {

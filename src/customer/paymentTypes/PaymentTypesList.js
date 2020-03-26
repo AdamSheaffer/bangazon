@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  Table,
-  Grid,
-  Sidebar,
-  Button,
-  Checkbox,
-  Icon
-} from "semantic-ui-react";
+import { Table, Grid, Sidebar, Button, Icon } from "semantic-ui-react";
 import { notify } from "react-notify-toast";
 import PaymentTypeAdd from "./PaymentTypeAdd";
 import APIManager from "../../api/APIManager";
