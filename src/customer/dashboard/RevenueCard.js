@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Grid, Divider, List, Icon } from "semantic-ui-react";
+import { Card, Grid, Divider, List } from "semantic-ui-react";
 import { Doughnut } from "react-chartjs-2";
 import { notify } from "react-notify-toast";
 import APIManager from "../../api/APIManager";
