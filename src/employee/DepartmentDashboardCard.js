@@ -48,7 +48,7 @@ export default class DepartmentDashboardCard extends Component {
         const totalBudgetDisplay = formatter.format(totalBudget);
         this.setState({ departments, chartData, totalBudgetDisplay });
       })
-      .catch(err => {
+      .catch(_err => {
         notify.show("There was an error getting department data", "error");
       });
   }

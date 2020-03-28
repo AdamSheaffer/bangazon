@@ -4,6 +4,7 @@ import { Button } from "semantic-ui-react";
 import SideBar from "../nav/SideBar";
 import PaymentTypesList from "./paymentTypes/PaymentTypesList";
 import CustomerLanding from "./customers/CustomerLanding";
+import Dashboard from "./dashboard/CustomerDashBoard";
 
 export default class CustomerContainer extends Component {
   render() {
@@ -17,6 +18,8 @@ export default class CustomerContainer extends Component {
               <Button color="facebook">Go to Employee Portal</Button>
             </Link>
           </div>
+
+          <Route exact path="/customer-portal" component={Dashboard} />
 
           <Route
             exact

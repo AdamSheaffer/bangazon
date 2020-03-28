@@ -85,7 +85,6 @@ class EmployeeList extends Component {
           </>
         ) : (
           <Grid>
-            Search Results
             <Grid.Row columns="equal">
               <Grid.Column width={8}>
                 {this.state.employees.map(employee => (

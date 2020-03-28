@@ -32,6 +32,10 @@ class SideBar extends Component {
 
   customerOptions = [
     {
+      title: "DASHBOARD",
+      link: "/customer-portal"
+    },
+    {
       title: "CUSTOMERS",
       link: "/customer-portal/customers"
     },

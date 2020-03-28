@@ -35,7 +35,7 @@ export default class CustomerLanding extends Component {
           this.setState({ customers, queryMade: true });
         })
         .catch(_err => {
-          notify("There was an error gettings customers", "error");
+          notify.show("There was an error gettings customers", "error");
         });
     } else if (searchBy === "id") {
       APIManager.getById("customers", searchTerm)
