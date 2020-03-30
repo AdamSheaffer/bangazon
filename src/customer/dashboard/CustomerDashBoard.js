@@ -3,6 +3,7 @@ import RevenueCard from "./RevenueCard";
 import { Grid } from "semantic-ui-react";
 import BestSellers from "./BestSellers";
 import NewCustomers from "./NewCustomers";
+import ProductsDashboardCard from "./ProductsDashboardCard";
 
 export default function Dashboard(props) {
   return (
@@ -27,11 +28,14 @@ export default function Dashboard(props) {
             </Grid.Column>
           </Grid.Row>
           <Grid.Row columns="equal">
-            <Grid.Column width={6}>
+            <Grid.Column>
               <BestSellers />
             </Grid.Column>
-            <Grid.Column width={6}>
+            <Grid.Column>
               <NewCustomers />
+            </Grid.Column>
+            <Grid.Column>
+              <ProductsDashboardCard />
             </Grid.Column>
           </Grid.Row>
         </Grid>

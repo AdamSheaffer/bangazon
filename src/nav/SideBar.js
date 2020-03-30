@@ -44,10 +44,6 @@ class SideBar extends Component {
       link: "/customer-portal/products"
     },
     {
-      title: "ORDERS",
-      link: "/customer-portal/orders"
-    },
-    {
       title: "PAYMENTS",
       link: "/customer-portal/payment-types"
     }

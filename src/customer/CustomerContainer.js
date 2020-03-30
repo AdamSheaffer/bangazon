@@ -5,6 +5,7 @@ import SideBar from "../nav/SideBar";
 import PaymentTypesList from "./paymentTypes/PaymentTypesList";
 import CustomerLanding from "./customers/CustomerLanding";
 import Dashboard from "./dashboard/CustomerDashBoard";
+import CustomerDetails from "./customers/CustomerDetails";
 
 export default class CustomerContainer extends Component {
   render() {
@@ -30,6 +31,11 @@ export default class CustomerContainer extends Component {
             exact
             path="/customer-portal/customers/"
             render={() => <CustomerLanding />}
+          />
+          <Route
+            exact
+            path="/customer-portal/customers/:customerId"
+            render={() => <CustomerDetails />}
           />
         </div>
       </>

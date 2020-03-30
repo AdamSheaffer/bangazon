@@ -57,7 +57,6 @@ export default class RevenueCard extends Component {
       .sort((a, b) => b.totalRevenue - a.totalRevenue)
       .slice(0, 3);
 
-    console.log(topCategories);
     return (
       <Card fluid>
         <Card.Content>

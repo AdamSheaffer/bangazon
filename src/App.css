@@ -151,9 +151,6 @@
   max-width: 40%;
 }
 
-.customer-image {
-}
-
 .departmentImage {
   max-width: 70%;
 }
@@ -206,12 +203,15 @@
   font-family: "Avenir Next";
   font-weight: 600;
   font-size: 18px;
+  color: rgba(0, 0, 0, 0.3);
 }
 
 .viewHeader {
   font-family: "Avenir Next";
   font-weight: normal;
   font-size: 28px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .barAndButtonContainer {

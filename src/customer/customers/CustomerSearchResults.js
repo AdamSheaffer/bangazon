@@ -26,7 +26,9 @@ export default function CustomerSearchResults({ customers }) {
               {item.firstName} {item.lastName}
             </Table.Cell>
             <Table.Cell align="right">
-              <Link>#{item.id}</Link>
+              <Link to={`/customer-portal/customers/${item.id}`}>
+                #{item.id}
+              </Link>
             </Table.Cell>
             <Table.Cell align="right">
               {item.address}, {item.state}

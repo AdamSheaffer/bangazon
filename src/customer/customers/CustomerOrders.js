@@ -1,50 +1,64 @@
-import React, { Component } from "react";
-import { Table } from "semantic-ui-react";
-import APIManager from "../../api/APIManager";
+import React from "react";
+import { Table, Card } from "semantic-ui-react";
+import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
 
-export default class CustomerOrders extends Component {
-  state = {
-    customers: [],
-    products: [],
-    id: ""
-  };
+function CustomerOrders({ orders }) {
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD"
+  });
+  return (
+    <Card fluid>
+      <Card.Content>
+        <h3 className="department-card__header">ORDERS</h3>
+        {!orders.length && (
+          <h5>
+            <em>No Orders Made</em>
+          </h5>
+        )}
 
-  getData = () => {
-    APIManager.getDataWithProduct("customers", 1575559407755).then(results => {
-      this.setState({
-        customers: results.customers,
-        products: results.products,
-        id: results.id
-      });
-    });
-  };
-  componentDidMount() {
-    this.getData();
-  }
+        {orders.map(order => (
+          <div key={order.id}>
+            <Table key={order.id} attached="top" basic>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Order # {order.id}</Table.HeaderCell>
+                  <Table.HeaderCell></Table.HeaderCell>
+                  <Table.HeaderCell textAlign="right">
+                    Total:
+                    {formatter.format(
+                      order.products.reduce((t, p) => t + p.price, 0)
+                    )}
+                  </Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+            </Table>
 
-  render() {
-    return (
-      <Table striped>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>productTypeId</Table.HeaderCell>
-            <Table.HeaderCell>dateAdded</Table.HeaderCell>
-            <Table.HeaderCell>title</Table.HeaderCell>
-            <Table.HeaderCell>price</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>
-          {this.state.products.map(item => (
-            <Table.Row key={item.id}>
-              <Table.Cell> {item.productTypeId}</Table.Cell>
-              <Table.Cell>{item.dateAdded}</Table.Cell>
-              <Table.Cell>{item.title}</Table.Cell>
-              <Table.Cell>{item.price}</Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-    );
-  }
+            <Table attached>
+              <Table.Body>
+                {order.products.map(product => (
+                  <Table.Row key={product.id}>
+                    <Table.Cell width={8}>{product.title}</Table.Cell>
+                    <Table.Cell width={4}>
+                      {formatter.format(product.price)}
+                    </Table.Cell>
+                    <Table.Cell width={4}>
+                      <Link
+                        to={`/customer-portal/customers/${product.customerId}`}
+                      >
+                        Seller
+                      </Link>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </div>
+        ))}
+      </Card.Content>
+    </Card>
+  );
 }
+
+export default withRouter(CustomerOrders);
