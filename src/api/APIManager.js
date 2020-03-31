@@ -80,9 +80,40 @@ export default {
   },
 
   getCustomerShoppingCart(id) {
-    return fetch(
-      `${remoteURL}/orders?customerId=${id}&cart=true`
-    ).then(result => result.json());
+    return fetch(`${remoteURL}/orders?customerId=${id}&cart=true`).then(
+      result => {
+        if (result.status === 204) {
+          return {};
+        }
+        return result.json();
+      }
+    );
+  },
+
+  addToCart(customerProduct) {
+    return fetch(`${remoteURL}/orders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(customerProduct)
+    });
+  },
+
+  removeItemFromCart(orderId, productId) {
+    return fetch(`${remoteURL}/orders/${orderId}/products/${productId}`, {
+      method: "DELETE"
+    });
+  },
+
+  purchaseCart(cart) {
+    return fetch(`${remoteURL}/orders/${cart.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(cart)
+    });
   },
 
   searchForEmployeeByName(firstName, lastName) {

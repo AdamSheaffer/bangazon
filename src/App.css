@@ -203,12 +203,15 @@
   font-family: "Avenir Next";
   font-weight: 600;
   font-size: 18px;
+  color: rgba(0, 0, 0, 0.3);
 }
 
 .viewHeader {
   font-family: "Avenir Next";
   font-weight: normal;
   font-size: 28px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .barAndButtonContainer {
@@ -225,7 +228,7 @@
 }
 
 .buttonContainer {
-  margin-left: 10px;
+  margin-left: 10px !important;
 }
 /* NavBar End */
 
@@ -333,4 +336,16 @@
 .employee-card-label-item {
   margin: 0;
   color: rgba(0, 0, 0, 0.6);
+}
+
+.payment-types__img {
+  height: 400px;
+}
+
+.search-by__radio {
+  margin: 0 20px;
+}
+
+.search-by__radio--selected label {
+  color: #6a78d1;
 }
