@@ -5,12 +5,14 @@ import { Grid } from "semantic-ui-react";
 import ShoppingCart from "./ShoppingCart";
 import APIManager from "../../api/APIManager";
 import { notify } from "react-notify-toast";
+import CustomerListings from "./CustomerListings";
 
 class CustomerDetails extends Component {
   state = {
     orders: [],
     cart: null,
-    paymentOptions: []
+    paymentOptions: [],
+    customer: null
   };
 
   componentDidMount() {
@@ -31,6 +33,7 @@ class CustomerDetails extends Component {
       });
 
     this.getShoppingCart(customerId);
+    this.getCustomer(customerId);
 
     APIManager.getCustomerPaymentTypes(customerId)
       .then(paymentOptions => {
@@ -60,6 +63,16 @@ class CustomerDetails extends Component {
           "There was an error getting the customer's shopping cart",
           "error"
         );
+      });
+  };
+
+  getCustomer = customerId => {
+    APIManager.getDataWithProduct("customers", customerId)
+      .then(customer => {
+        this.setState({ customer });
+      })
+      .catch(_err => {
+        notify.show("There was an error getting customer data", "error");
       });
   };
 
@@ -123,6 +136,19 @@ class CustomerDetails extends Component {
                 paymentOptions={this.state.paymentOptions}
                 remove={this.removeItemFromCart}
                 purchase={this.purchaseCart}
+              />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column width={10}>
+              <CustomerListings
+                customerId={this.props.match.params.customerId}
+                onProductAdd={() =>
+                  this.getCustomer(this.props.match.params.customerId)
+                }
+                products={
+                  this.state.customer ? this.state.customer.products : []
+                }
               />
             </Grid.Column>
           </Grid.Row>
