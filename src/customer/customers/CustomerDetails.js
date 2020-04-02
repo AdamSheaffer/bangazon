@@ -1,11 +1,12 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import { withRouter } from "react-router";
 import CustomerOrders from "./CustomerOrders";
-import { Grid } from "semantic-ui-react";
+import { Grid, Sticky, Ref } from "semantic-ui-react";
 import ShoppingCart from "./ShoppingCart";
 import APIManager from "../../api/APIManager";
 import { notify } from "react-notify-toast";
 import CustomerListings from "./CustomerListings";
+import CustomerProfile from "./CustomerProfile";
 
 class CustomerDetails extends Component {
   state = {
@@ -76,6 +77,12 @@ class CustomerDetails extends Component {
       });
   };
 
+  updateCustomer = updated => {
+    return APIManager.updateData("customers", updated).then(({ id }) => {
+      this.getCustomer(id);
+    });
+  };
+
   removeItemFromCart = id => {
     const { customerId } = this.props.match.params;
     APIManager.removeItemFromCart(this.state.cart.id, id).then(() =>
@@ -118,6 +125,8 @@ class CustomerDetails extends Component {
     if (newId !== oldId) this.fetchAllData(newId);
   }
 
+  contextRef = createRef();
+
   render() {
     return (
       <>
@@ -125,31 +134,56 @@ class CustomerDetails extends Component {
         <Grid>
           <Grid.Row columns="equal">
             <Grid.Column width={10}>
-              <CustomerOrders orders={this.state.orders} />
+              <Grid.Row columns="equal">
+                <Grid.Column width={10}>
+                  <div className="card-margin">
+                    <CustomerOrders
+                      className="card-margin"
+                      orders={this.state.orders}
+                    />
+                  </div>
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column width={10}>
+                  <div className="card-margin">
+                    <ShoppingCart
+                      addProduct={this.addProductToCart}
+                      cart={this.state.cart}
+                      paymentOptions={this.state.paymentOptions}
+                      remove={this.removeItemFromCart}
+                      purchase={this.purchaseCart}
+                    />
+                  </div>
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column width={10}>
+                  <div className="card-margin">
+                    <CustomerListings
+                      customerId={this.props.match.params.customerId}
+                      onProductAdd={() =>
+                        this.getCustomer(this.props.match.params.customerId)
+                      }
+                      products={
+                        this.state.customer ? this.state.customer.products : []
+                      }
+                    />
+                  </div>
+                </Grid.Column>
+              </Grid.Row>
             </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={10}>
-              <ShoppingCart
-                addProduct={this.addProductToCart}
-                cart={this.state.cart}
-                paymentOptions={this.state.paymentOptions}
-                remove={this.removeItemFromCart}
-                purchase={this.purchaseCart}
-              />
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={10}>
-              <CustomerListings
-                customerId={this.props.match.params.customerId}
-                onProductAdd={() =>
-                  this.getCustomer(this.props.match.params.customerId)
-                }
-                products={
-                  this.state.customer ? this.state.customer.products : []
-                }
-              />
+            <Grid.Column>
+              {this.state.customer && (
+                <Ref innerRef={this.contextRef}>
+                  <Sticky offset={28} styleElement={{ "z-index": "99" }}>
+                    <CustomerProfile
+                      onProfileChange={this.updateCustomer}
+                      customer={this.state.customer}
+                    />
+                  </Sticky>
+                </Ref>
+              )}
             </Grid.Column>
           </Grid.Row>
         </Grid>

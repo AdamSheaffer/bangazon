@@ -37,7 +37,11 @@ class ShoppingCart extends Component {
                 placeholder="Product ID"
               />
             </Form.Field>
-            <Button content="Add" color="facebook" />
+            <Button
+              disabled={!this.state.productId}
+              content="Add"
+              color="facebook"
+            />
           </Form>
           {!cart || !cart.products ? (
             <h5>

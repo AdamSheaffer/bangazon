@@ -151,6 +151,10 @@
   max-width: 40%;
 }
 
+.card-margin {
+  margin: 28px 0;
+}
+
 .departmentImage {
   max-width: 70%;
 }
