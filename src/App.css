@@ -353,3 +353,13 @@
 .search-by__radio--selected label {
   color: #6a78d1;
 }
+
+.action-link {
+  color: #6a78d1;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.non-card-icon {
+  box-shadow: none !important;
+}

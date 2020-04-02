@@ -32,7 +32,7 @@ export default function CustomerProfile({ customer, onProfileChange }) {
   };
 
   return (
-    <>
+    <div className="card-margin">
       <Grid>
         <Grid.Column>
           <Header
@@ -94,7 +94,7 @@ export default function CustomerProfile({ customer, onProfileChange }) {
                         <div>{customer.address}</div>
                         <div>
                           {customer.city}
-                          {","} {customer.state}}
+                          {","} {customer.state}
                         </div>
                       </div>
                     }
@@ -113,7 +113,7 @@ export default function CustomerProfile({ customer, onProfileChange }) {
           </Card>
         </Grid.Column>
       </Grid>
-    </>
+    </div>
   );
 }
 

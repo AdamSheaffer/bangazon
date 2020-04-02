@@ -1,19 +1,21 @@
 import React, { Component, createRef } from "react";
 import { withRouter } from "react-router";
 import CustomerOrders from "./CustomerOrders";
-import { Grid, Sticky, Ref } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import ShoppingCart from "./ShoppingCart";
 import APIManager from "../../api/APIManager";
 import { notify } from "react-notify-toast";
 import CustomerListings from "./CustomerListings";
 import CustomerProfile from "./CustomerProfile";
+import CustomerPayments from "./CustomerPayments";
 
 class CustomerDetails extends Component {
   state = {
     orders: [],
     cart: null,
     paymentOptions: [],
-    customer: null
+    customer: null,
+    paymentTypes: []
   };
 
   componentDidMount() {
@@ -35,12 +37,18 @@ class CustomerDetails extends Component {
 
     this.getShoppingCart(customerId);
     this.getCustomer(customerId);
+    this.getCustomerPaymentOptions(customerId);
+    this.getPaymentTypes();
+  };
 
+  getCustomerPaymentOptions = customerId => {
     APIManager.getCustomerPaymentTypes(customerId)
       .then(paymentOptions => {
         const options = paymentOptions.map(p => {
           return {
             text: `Card ending in ${p.acctNumber.slice(-4)}`,
+            acctNumber: p.acctNumber,
+            paymentTypeId: p.paymentTypeId,
             value: p.id
           };
         });
@@ -119,6 +127,51 @@ class CustomerDetails extends Component {
       });
   };
 
+  getPaymentTypes = () => {
+    APIManager.getAll("paymentTypes")
+      .then(paymentTypes => {
+        this.setState({ paymentTypes });
+      })
+      .catch(_err => {
+        notify.show("There was an error getting credit card options", "error");
+      });
+  };
+
+  addCard = c => {
+    const { customerId } = this.props.match.params;
+    const card = {
+      ...c,
+      customerId: +customerId
+    };
+    return APIManager.addData("userPaymentTypes", card)
+      .then(() => this.getCustomerPaymentOptions(customerId))
+      .catch(_err => {
+        notify.show("There was an error saving the card");
+      });
+  };
+
+  updateCard = c => {
+    const { customerId } = this.props.match.params;
+    const card = {
+      ...c,
+      customerId: +customerId
+    };
+    return APIManager.updateData("userPaymentTypes", card)
+      .then(() => this.getCustomerPaymentOptions(customerId))
+      .catch(_err => {
+        notify.show("There was an error saving the card");
+      });
+  };
+
+  deleteCard = id => {
+    const { customerId } = this.props.match.params;
+    return APIManager.deleteData("userPaymentTypes", id)
+      .then(() => this.getCustomerPaymentOptions(customerId))
+      .catch(_err => {
+        notify.show("There was an error removing the card");
+      });
+  };
+
   componentDidUpdate(prevProps) {
     const oldId = prevProps.match.params.customerId;
     const newId = this.props.match.params.customerId;
@@ -175,14 +228,19 @@ class CustomerDetails extends Component {
             </Grid.Column>
             <Grid.Column>
               {this.state.customer && (
-                <Ref innerRef={this.contextRef}>
-                  <Sticky offset={28} styleElement={{ "z-index": "99" }}>
-                    <CustomerProfile
-                      onProfileChange={this.updateCustomer}
-                      customer={this.state.customer}
-                    />
-                  </Sticky>
-                </Ref>
+                <>
+                  <CustomerProfile
+                    onProfileChange={this.updateCustomer}
+                    customer={this.state.customer}
+                  />
+                  <CustomerPayments
+                    payments={this.state.paymentOptions}
+                    paymentTypes={this.state.paymentTypes}
+                    addCard={this.addCard}
+                    editCard={this.updateCard}
+                    deleteCard={this.deleteCard}
+                  />
+                </>
               )}
             </Grid.Column>
           </Grid.Row>
