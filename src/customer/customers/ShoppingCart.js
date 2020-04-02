@@ -51,17 +51,21 @@ class ShoppingCart extends Component {
             <Table striped size="small">
               <Table.Header>
                 <Table.Row>
-                  <Table.HeaderCell>Product</Table.HeaderCell>
-                  <Table.HeaderCell>Price</Table.HeaderCell>
-                  <Table.HeaderCell></Table.HeaderCell>
+                  <Table.HeaderCell width={6}>Product</Table.HeaderCell>
+                  <Table.HeaderCell width={3}></Table.HeaderCell>
+                  <Table.HeaderCell width={4}>Price</Table.HeaderCell>
+                  <Table.HeaderCell width={3}></Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
                 {cart.products.map((product, i) => (
                   <Table.Row key={i}>
-                    <Table.Cell>{product.title}</Table.Cell>
-                    <Table.Cell>{formatter.format(product.price)}</Table.Cell>
-                    <Table.Cell>
+                    <Table.Cell width={6}>{product.title}</Table.Cell>
+                    <Table.Cell width={3}></Table.Cell>
+                    <Table.Cell width={4}>
+                      {formatter.format(product.price)}
+                    </Table.Cell>
+                    <Table.Cell width={3}>
                       <Button
                         onClick={() => this.props.remove(product.id)}
                         basic

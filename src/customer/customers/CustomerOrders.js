@@ -23,9 +23,11 @@ function CustomerOrders({ orders }) {
             <Table key={order.id} attached="top" basic>
               <Table.Header>
                 <Table.Row>
-                  <Table.HeaderCell>Order # {order.id}</Table.HeaderCell>
-                  <Table.HeaderCell></Table.HeaderCell>
-                  <Table.HeaderCell textAlign="right">
+                  <Table.HeaderCell width={8}>
+                    Order # {order.id}
+                  </Table.HeaderCell>
+                  <Table.HeaderCell width={4}></Table.HeaderCell>
+                  <Table.HeaderCell width={4} textAlign="right">
                     Total:
                     {formatter.format(
                       order.products.reduce((t, p) => t + p.price, 0)
@@ -39,11 +41,12 @@ function CustomerOrders({ orders }) {
               <Table.Body>
                 {order.products.map(product => (
                   <Table.Row key={product.id}>
-                    <Table.Cell width={8}>{product.title}</Table.Cell>
+                    <Table.Cell width={6}>{product.title}</Table.Cell>
+                    <Table.Cell width={3}></Table.Cell>
                     <Table.Cell width={4}>
                       {formatter.format(product.price)}
                     </Table.Cell>
-                    <Table.Cell width={4}>
+                    <Table.Cell width={3}>
                       <Link
                         to={`/customer-portal/customers/${product.customerId}`}
                       >

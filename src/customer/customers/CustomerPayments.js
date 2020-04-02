@@ -9,7 +9,7 @@ export default function CustomerPayments({
   payments = []
 }) {
   const [addForm, setAddForm] = useState(false);
-  const [cardNumberToAdd, setcardNumberToAdd] = useState("");
+  const [cardNumberToAdd, setCardNumberToAdd] = useState("");
   const [cardTypeToAdd, setCardTypeToAdd] = useState();
   const [cardToEdit, setCardToEdit] = useState(null);
 
@@ -17,7 +17,11 @@ export default function CustomerPayments({
     addCard({
       acctNumber: cardNumberToAdd,
       paymentTypeId: cardTypeToAdd
-    }).then(() => setAddForm(false));
+    }).then(() => {
+      setAddForm(false);
+      setCardTypeToAdd(null);
+      setCardNumberToAdd("");
+    });
   };
 
   const submitEdit = () => {
@@ -109,7 +113,7 @@ export default function CustomerPayments({
                 <input
                   placeholder="Card Number"
                   value={cardNumberToAdd}
-                  onChange={e => setcardNumberToAdd(e.target.value)}
+                  onChange={e => setCardNumberToAdd(e.target.value)}
                 />
               </Form.Field>
               <Form.Field width={8}>

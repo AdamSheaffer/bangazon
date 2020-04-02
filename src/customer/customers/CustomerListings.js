@@ -87,10 +87,10 @@ export default function CustomerListings({
             <Table striped size="small">
               <Table.Header>
                 <Table.Row>
-                  <Table.HeaderCell>Product</Table.HeaderCell>
-                  <Table.HeaderCell>Added Date</Table.HeaderCell>
-                  <Table.HeaderCell>Price</Table.HeaderCell>
-                  <Table.HeaderCell></Table.HeaderCell>
+                  <Table.HeaderCell width={6}>Product</Table.HeaderCell>
+                  <Table.HeaderCell width={3}>Added Date</Table.HeaderCell>
+                  <Table.HeaderCell width={4}>Price</Table.HeaderCell>
+                  <Table.HeaderCell width={3}></Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
